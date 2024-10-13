@@ -65,13 +65,13 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Get Kube config file
         id: getconfig
         if: steps.apply.outcome == 'success'
-        run: aws eks update-kubeconfig --region $AWS_REGION --name $EKS_CLUSTER
+        run: aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.EKS_CLUSTER }}
 
       - name: Install Ingress controller
         if: steps.apply.outcome == 'success' && steps.getconfig.outcome == 'success'
